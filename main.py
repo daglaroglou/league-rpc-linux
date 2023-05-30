@@ -4,6 +4,7 @@ from src.gamemode import GameMode
 from src.kda import KDA, kills, deaths, assists
 import psutil
 import time
+import os
 
 class Colors:
     dred = "\033[31m"
@@ -23,7 +24,11 @@ class Colors:
     white = "\033[97m"
     reset = "\033[0m"
 
-print('Checking if Discord is running...')
+print(Colors.yellow+'Checking if Discord is running...')
+time.sleep(2)
+
+def clear():
+    os.system('clear')
 
 def process_exists(processName):
     for proc in psutil.process_iter():
@@ -34,17 +39,24 @@ def process_exists(processName):
             pass
     return False
 
-print('Checking if LeagueClient.exe is running...')
-
 if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary') == True:
+    print(Colors.green+'Discord is running!'+Colors.dgray+'(1/2)'+Colors.reset)
     RPC = Presence('401518684763586560')
     RPC.connect()
+else:
+    print(Colors.red+'Discord not running!'+Colors.reset)
+    exit()
 
-print('Checking if LeagueOfLegends.exe is running...')
+print(Colors.yellow+'Checking if LeagueClient.exe is running...')
+if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
+    print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
+else:
+    print(Colors.red+'LeagueClient.exe is not running!'+Colors.reset)
+clear()
 
 def PlayerState():
     if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
-        if process_exists('League of Legends.exe'):
+        if process_exists('League of Legends.exe'): 
             return 'InGame'
         else:
             return 'InLobby'
