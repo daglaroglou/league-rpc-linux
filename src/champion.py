@@ -1,13 +1,12 @@
 import requests
-
 import urllib3
 urllib3.disable_warnings()
 
 def ChampionName():
     try:
-        data = requests.get('https://127.0.0.1:2999/liveclientdata/allgamedata', verify=False)
+        data = requests.get('https://127.0.0.1:2999/liveclientdata/activeplayer', verify=False)
         parsed_data = data.json()
-        champ = parsed_data['allPlayers'][0]['championName']
+        champ = parsed_data["abilities"]["E"]["id"][:-1]
     except:
         data = False
         parsed_data = False
