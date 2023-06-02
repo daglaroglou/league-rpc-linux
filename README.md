@@ -10,11 +10,12 @@ League of Legends Discord Rich Presence for Linux (WINE)
 
 ## FAQ
 - Is this gonna ban my account?
-> No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer
+> No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer. Besides that, you are resoinsible for using it.
 - Is it legal?
 > By no means is this affiliated or supported by Riot Games. This means im the only maintainer and owner.
-- I got a question
-> Feel free to contact me on socials or open an issue here!
+- Does it support TFT?
+> No. At least for now.
 - Is this working on Windows?
 > It could probably run as expected there as well (probably some minor adjustments needed) but Windows already have native Rich Presence support for the game.
-
+- I got a question
+> Feel free to contact me on socials or open an issue here!
