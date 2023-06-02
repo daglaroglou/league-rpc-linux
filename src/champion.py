@@ -2,15 +2,38 @@ import requests
 import urllib3
 urllib3.disable_warnings()
 
-def ChampionName():
-    try:
-        data = requests.get('https://127.0.0.1:2999/liveclientdata/activeplayer', verify=False)
-        parsed_data = data.json()
-        champ = parsed_data["abilities"]["E"]["id"][:-1]
-    except:
-        data = False
-        parsed_data = False
-        champ = '???'
+def ChampionName(Name):
+    champ = '???'
+    while champ == '???':
+        try:
+            data = requests.get('https://127.0.0.1:2999/liveclientdata/allgamedata', verify=False)
+            parsed_data = data.json()
+            champ = parsed_data["allPlayers"][0]["championName"]
+        except:
+            champ = '???'
+    if champ == 'Renata Glasc':
+        champ = 'Renata'
+    if champ == 'Dr. Mundo':
+        champ = 'DrMundo'
+    if champ == 'Miss Fortune':
+        champ = 'MissFortune'
+    if champ == "Kai'Sa":
+        champ = 'KaiSa'
+    if champ == "Kog'Maw":
+        champ = 'KogMaw'
+    if champ == "Rek'Sai":
+        champ = 'RekSai'
+    if champ == "K'Sante":
+        champ = 'KSante'
+    if champ == "Nunu & Willump":
+        champ = 'Nunu'
+    if champ == 'Twisted Fate':
+        champ = 'TwistedFate'
+    if champ == "Vel'Koz":
+        champ = 'Velkoz'
+    if champ == 'Xin Zhao':
+        champ = 'XinZhao'
+        
     return champ
 
 def ChampionAsset(Champion):

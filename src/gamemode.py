@@ -16,7 +16,7 @@ def GameMode():
     elif game_mode == 'ARAM':
         return 'Howling Abyss (ARAM)'
     elif game_mode == 'CLASSIC':
-        return 'Summoner\'s Rift (Normal)'
+        return 'Summoner\'s Rift'
     elif game_mode == 'TUTORIAL':
         return 'Summoner\'s Rift (Tutorial)'
     elif game_mode == 'URF':
