@@ -1,4 +1,4 @@
-![Logo](https://i.ibb.co/YX74wgx/20230531-015154.png)
+![Logo](https://github.com/daglaroglou/league-rpc-linux/blob/main/assets/league-rpc.png)
 
 League of Legends Discord Rich Presence for Linux (WINE / Lutris)
 
