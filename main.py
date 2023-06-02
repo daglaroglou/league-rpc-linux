@@ -1,7 +1,8 @@
 from pypresence import Presence
 from src.champion import ChampionAsset, ChampionName
 from src.gamemode import GameMode
-from src.kda import KDA, kills, deaths, assists
+from src.username import SummonerName
+from src.kda import KDA
 import psutil
 import time
 import os
@@ -23,6 +24,18 @@ class Colors:
     cyan = "\033[96m"
     white = "\033[97m"
     reset = "\033[0m"
+
+print(f'''
+{Colors.yellow}  _                                  {Colors.dblue} _____  _____   _____ {Colors.reset}
+{Colors.yellow} | |                                 {Colors.dblue}|  __ \|  __ \ / ____|{Colors.reset}
+{Colors.yellow} | |     ___  __ _  __ _ _   _  ___  {Colors.dblue}| |__) | |__) | |     {Colors.reset}
+{Colors.yellow} | |    / _ \/ _` |/ _` | | | |/ _ \ {Colors.dblue}|  _  /|  ___/| |     {Colors.reset}
+{Colors.yellow} | |___|  __/ (_| | (_| | |_| |  __/ {Colors.dblue}| | \ \| |    | |____ {Colors.reset}
+{Colors.yellow} |______\___|\__,_|\__, |\__,_|\___| {Colors.dblue}|_|  \_\_|     \_____|{Colors.reset}
+{Colors.yellow}                    __/ |                                                {Colors.reset}
+{Colors.yellow}                   |___/                                                 {Colors.reset}
+''')
+time.sleep(2)
 
 print(Colors.yellow+'Checking if Discord is running...')
 time.sleep(2)
@@ -48,11 +61,17 @@ else:
     exit()
 
 print(Colors.yellow+'Checking if LeagueClient.exe is running...')
+time.sleep(2)
 if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
     print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
 else:
     print(Colors.red+'LeagueClient.exe is not running!'+Colors.reset)
-clear()
+    time.sleep(2)
+    exit()
+
+time.sleep(1)
+
+print(f'{Colors.green}\nRich Presence utilezed!')
 
 def PlayerState():
     if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
@@ -63,33 +82,36 @@ def PlayerState():
     else:
         return 'NotLaunched'
 
-champion = ChampionName()
-asset = ChampionAsset(Champion=ChampionName())
-
-while True:  
+while PlayerState() != 'NotLaunched':
     if PlayerState() == 'InGame':
         start_time = time.time()
-        while PlayerState() == 'InGame':
+        username = SummonerName()
+        while username == False:
+            username = SummonerName()
             time.sleep(5)
+        c = ChampionName(Name=SummonerName())
+        c_ = c[:]
+        ca = ChampionAsset(Champion=ChampionName(Name=SummonerName()))
+        ca_ = ca[:]
+        while PlayerState() == 'InGame':
             RPC.update(
-                large_image=asset,
-                large_text=champion,
+                large_image=ca_,
+                large_text=c_,
                 details=GameMode(),
                 state='In Game',
-                small_image='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/LoL_icon.svg/2048px-LoL_icon.svg.png',
-                small_text=str(kills(parsed_data=KDA()))+'/'+str(deaths(parsed_data=KDA()))+'/'+str(assists(parsed_data=KDA())),
+                small_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
+                small_text=KDA(),
                 start=start_time
             )
     elif PlayerState() == 'InLobby':
         start_time = time.time()
         while PlayerState() == 'InLobby':
-            time.sleep(5)
             RPC.update(
-                large_image='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/LoL_icon.svg/2048px-LoL_icon.svg.png',
+                large_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
                 large_text='In Lobby',
                 state='In Lobby',
                 start=start_time
             )
-    elif PlayerState() == 'NotLaunched':
-        print('League of Legends is not launched! Please launch it manually an re-run the script.')
-        exit()
+else:
+    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...')
+    exit()
