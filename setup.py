@@ -42,6 +42,6 @@ except:
     os.system('pip3 install requests > /dev/null')
     os.system('pip3 install psutil > /dev/null')
 
-print(f'{Colors.dgreen}Dependiencies installed! Launch {Colors.yellow}main.py {Colors.dgreen}to begin.')
+print(f'{Colors.dgreen}Dependencies installed! Launch {Colors.yellow}main.py {Colors.dgreen}to begin.')
 time.sleep(2)
 exit()
