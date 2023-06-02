@@ -26,11 +26,22 @@ print(f'''
 {Colors.yellow} | |    / _ \/ _` |/ _` | | | |/ _ \ {Colors.dblue}|  _  /|  ___/| |     {Colors.reset}
 {Colors.yellow} | |___|  __/ (_| | (_| | |_| |  __/ {Colors.dblue}| | \ \| |    | |____ {Colors.reset}
 {Colors.yellow} |______\___|\__,_|\__, |\__,_|\___| {Colors.dblue}|_|  \_\_|     \_____|{Colors.reset}
-{Colors.yellow}                    __/ |                                                {Colors.reset}
+{Colors.yellow}                    __/ |{Colors.green}setup.py                          {Colors.reset}
 {Colors.yellow}                   |___/                                                 {Colors.reset}
 ''')
 time.sleep(1.5)
 
 print(f'{Colors.dmagenta}Installing dependencies...{Colors.reset}')
 
-os.system('pip3 install pypresence requests psutil')
+time.sleep(1)
+
+try:
+    os.system('pip3 install -r requirements.txt > /dev/null')
+except:
+    os.system('pip3 install pypresence > /dev/null')
+    os.system('pip3 install requests > /dev/null')
+    os.system('pip3 install psutil > /dev/null')
+
+print(f'{Colors.dgreen}Dependiencies installed! Launch {Colors.yellow}main.py {Colors.dgreen}to begin.')
+time.sleep(2)
+exit()
