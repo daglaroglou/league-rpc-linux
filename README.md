@@ -1,12 +1,12 @@
 ![Logo](https://i.ibb.co/YX74wgx/20230531-015154.png)
 
-League of Legends Discord Rich Presence for Linux (WINE)
+League of Legends Discord Rich Presence for Linux (WINE / Lutris)
 
 ## Installation
 1. Download the source code 
 2. Extract the .zip
-3. Install dependencies using `pip3 install -r requirements.txt`
-4. Run python3 main.py
+3. Install dependencies using `pip3 install -r requirements.txt` or `python3 setup.py`
+4. Run `python3 main.py`
 
 ## FAQ
 - Is this gonna ban my account?
