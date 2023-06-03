@@ -1,5 +1,6 @@
 ![Logo](https://github.com/daglaroglou/league-rpc-linux/blob/main/assets/league-rpc.png)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black) ![Python](https://img.shields.io/badge/Python-FCC624?style=for-the-badge&logo=python&logoColor=blue)
 
 League of Legends Discord Rich Presence for Linux (WINE / Lutris)
 
