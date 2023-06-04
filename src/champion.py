@@ -33,6 +33,8 @@ def ChampionName(Name):
         champ = 'Velkoz'
     if champ == 'Xin Zhao':
         champ = 'XinZhao'
+    if champ == 'Master Yi':
+        champ == 'MasterYi'
         
     return champ
 
