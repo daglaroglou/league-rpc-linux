@@ -93,6 +93,9 @@ def main() -> None:
     # Scanning
     scan_for_required_processes()
 
+    RPC = Presence(get_client_id())
+    RPC.connect()
+
     print("all good") # TODO: logger
 
     while player_state != 'NotLaunched':
@@ -126,4 +129,5 @@ def main() -> None:
         print("seems like League is disconnected, trying again and quitting if not found") #TODO: actually implement this
 
 if __name__ == "__main__":
-    main()
+    #main()
+    pass
