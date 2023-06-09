@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #############################################################
 #  _                                   _____  _____   _____ #
 # | |                                 |  __ \|  __ \ / ____|#
@@ -11,8 +12,8 @@
 # ZeroKun265/league-rpc-linux - forked from daglaroglou/league-rpc-linux
 
 # Built ins
+import argparse
 import logging
-import os
 import time
 
 # 3rd party
@@ -25,12 +26,6 @@ from src.gamemode import GameMode
 from src.kda import KDA
 from src.username import SummonerName
 
-logging.basicConfig(level=logging.DEBUG)
-
-def get_client_id():
-    logging.info("Reading client id from storage")
-    with open("client_id.txt", "r") as f:
-        return f.read()
 
 def process_exists(processName: str) -> bool:
     logging.info(f"Starting process checking iteration, Looking for {processName}")
@@ -108,13 +103,33 @@ def scan_for_required_processes(end_after_n_attempts = 15) -> None:
         time.sleep(5)
 
 def main() -> None:
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--debug", help="enable debug logging", action="store_true")
+    parser.add_argument("-i", "--info", help="enable info logging", action="store_true")
+    parser.add_argument("-w", "--warning", help="enable warning logging", action="store_true")
+    parser.add_argument("-e", "--error", help="enable error logging", action="store_true")
+    args = parser.parse_args()
+
+    # Configure logging based on command-line arguments
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    elif args.info:
+        logging.basicConfig(level=logging.INFO)
+    elif args.warning:
+        logging.basicConfig(level=logging.WARNING)
+    elif args.error:
+        logging.basicConfig(level=logging.ERROR)
+    else:
+        logging.basicConfig(level=logging.ERROR)
+
     attempts_to_quit = 0
     logging.info("Starting LoL RPC for Linux")
     # Scanning
     scan_for_required_processes()
 
     logging.debug("Attempting RPC connection with discord client")
-    RPC = Presence(get_client_id())
+    RPC = Presence("863018853482889236")
     RPC.connect()
     logging.info("RPC Connection succesfull")
 
