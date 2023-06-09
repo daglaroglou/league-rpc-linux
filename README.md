@@ -10,6 +10,17 @@ League of Legends Discord Rich Presence for Linux (WINE / Lutris)
 3. Install dependencies using `pip3 install -r requirements.txt` or `python3 setup.py`
 4. Run `python3 main.py`
 
+## Using with lutris
+To use this code with Lutris you need to install it (no need for step 4 tho)
+Then
+1. Open lutris
+2. Right click on League of Legends and hit configure
+3. Go in the System Options tab
+4. Enable Advanced (Top roght toggle)
+5. Scroll down to pre-launch script
+6. Click browse and select the main.py file
+(Make sure that the file is executable, if it isn't open a terminal and type `chmod +x /path/to/league-rpc-linux/main.py` changing the path according to your file structure
+
 ## FAQ
 - Is this gonna ban my account?
 > No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer. Besides that, you are resoinsible for using it.
