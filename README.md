@@ -21,6 +21,12 @@ Then
 6. Click browse and select the main.py file
 (Make sure that the file is executable, if it isn't open a terminal and type `chmod +x /path/to/league-rpc-linux/main.py` changing the path according to your file structure
 
+## VERY IMPORTANT: Issues with locales
+While testing on Italian game language the script would crash when playing Nunu but not some other champs like Mordekaiser
+Turns out the issue is the script expects "Nunu & Willump" to convert it to "Nunu" but not "Nunu e Willump" which is the italian version
+A fix for this has already been implemented but many more could come up, and therefore i ask of anyone who encounters such bugs to report it in the issues tab, and the issue will be fixed right away (as it's just adding more to the if statements, easy stuff)
+Also you should probably keep the script up to date if any new fixes roll out
+
 ## FAQ
 - Is this gonna ban my account?
 > No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer. Besides that, you are resoinsible for using it.
