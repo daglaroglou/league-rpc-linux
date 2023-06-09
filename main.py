@@ -142,6 +142,7 @@ def main() -> None:
                 while player_state == 'InGame':
                     gamemode = GameMode()
                     logging.debug(f"Updating RPC: Champion {champion_name} ChampionArt: {champion_art} Gamemode:{gamemode} StartTime: {start_time}")
+                    print(champion_art + "\n" + champion_name)   
                     RPC.update(
                         large_image=champion_art,
                         large_text=champion_name,
