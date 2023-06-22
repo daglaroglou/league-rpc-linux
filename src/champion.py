@@ -13,6 +13,8 @@ def ChampionName(Name):
             champ = '???'
     if champ == 'Aurelion Sol':
         champ = 'AurelionSol'
+    if champ == "Cho'Gath":
+        champ = 'Chogath'
     if champ == 'Renata Glasc':
         champ = 'Renata'
     if champ == 'Dr. Mundo':
