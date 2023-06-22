@@ -11,6 +11,8 @@ def ChampionName(Name):
             champ = parsed_data["allPlayers"][0]["championName"]
         except:
             champ = '???'
+    if champ == 'Aurelion Sol':
+        champ = 'AurelionSol'
     if champ == 'Renata Glasc':
         champ = 'Renata'
     if champ == 'Dr. Mundo':
