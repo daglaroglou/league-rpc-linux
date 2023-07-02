@@ -29,7 +29,7 @@ def ChampionName(Name):
         champ = 'RekSai'
     if champ == "K'Sante":
         champ = 'KSante'
-    if champ == "Nunu & Willump":
+    if champ == "Nunu & Willump" or champ == "Nunu e Willump": # Fix for italian language
         champ = 'Nunu'
     if champ == 'Twisted Fate':
         champ = 'TwistedFate'
