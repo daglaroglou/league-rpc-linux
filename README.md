@@ -38,8 +38,3 @@ Also you should probably keep the script up to date if any new fixes roll out
 > It could probably run as expected there as well (probably some minor adjustments needed) but Windows already have native Rich Presence support for the game.
 - I got a question
 > Feel free to contact me on socials or open an issue here!
-
-## This is a fork from [daglaroglou/league-rpc-linux](https://github.com/daglaroglou/league-rpc-linux)
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=daglaroglou&repo=league-rpc-linux)](https://github.com/daglaroglou/league-rpc-linux)
-
-I'm planning to add more features and maybe make the RPC more similar to that of the official client, but considering other things going on in my life it might take a while
