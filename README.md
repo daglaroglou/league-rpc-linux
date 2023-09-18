@@ -29,7 +29,7 @@ Also you should probably keep the script up to date if any new fixes roll out
 
 ## FAQ
 - Is this gonna ban my account?
-> No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer. Besides that, you are resoinsible for using it.
+> No. This uses the local Riot's API which runs at `127.0.0.1:2999` at your computer. Besides that, you are responsible for using it.
 - Is it legal?
 > By no means is this affiliated or supported by Riot Games. This means im the only maintainer and owner.
 - Does it support TFT?
