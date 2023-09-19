@@ -1,181 +1,117 @@
-#!/usr/bin/env python3
-#############################################################
-#  _                                   _____  _____   _____ #
-# | |                                 |  __ \|  __ \ / ____|#
-# | |     ___  __ _  __ _ _   _  ___  | |__) | |__) | |     #
-# | |    / _ \/ _` |/ _` | | | |/ _ \ |  _  /|  ___/| |     #
-# | |___|  __/ (_| | (_| | |_| |  __/ | | \ \| |    | |____ #
-# |______\___|\__,_|\__, |\__,_|\___| |_|  \_\_|     \_____|#
-#                    __/ |                                  #
-#                   |___/                                   #             
-#############################################################
-# ZeroKun265/league-rpc-linux - forked from daglaroglou/league-rpc-linux
-
-# Built ins
-import argparse
-import logging
-import time
-
-# 3rd party
-import psutil
 from pypresence import Presence
-
-# Locals
 from src.champion import ChampionAsset, ChampionName
 from src.gamemode import GameMode
-from src.kda import KDA
 from src.username import SummonerName
+from src.kda import KDA
+import psutil
+import time
+import os
 
+class Colors:
+    dred = "\033[31m"
+    dgreen = "\033[32m"
+    yellow = "\033[33m"
+    dblue = "\033[34m"
+    dmagenta = "\033[35m"
+    dcyan = "\033[36m"
+    lgrey = "\033[37m"
+    dgray = "\033[90m"
+    red = "\033[91m"
+    green = "\033[92m"
+    orange = "\033[93m"
+    blue = "\033[94m"
+    magenta = "\033[95m"
+    cyan = "\033[96m"
+    white = "\033[97m"
+    reset = "\033[0m"
 
-def process_exists(processName: str) -> bool:
-    logging.info(f"Starting process checking iteration, Looking for {processName}")
+print(f'''
+{Colors.yellow}  _                                  {Colors.dblue} _____  _____   _____ {Colors.reset}
+{Colors.yellow} | |                                 {Colors.dblue}|  __ \|  __ \ / ____|{Colors.reset}
+{Colors.yellow} | |     ___  __ _  __ _ _   _  ___  {Colors.dblue}| |__) | |__) | |     {Colors.reset}
+{Colors.yellow} | |    / _ \/ _` |/ _` | | | |/ _ \ {Colors.dblue}|  _  /|  ___/| |     {Colors.reset}
+{Colors.yellow} | |___|  __/ (_| | (_| | |_| |  __/ {Colors.dblue}| | \ \| |    | |____ {Colors.reset}
+{Colors.yellow} |______\___|\__,_|\__, |\__,_|\___| {Colors.dblue}|_|  \_\_|     \_____|{Colors.reset}
+{Colors.yellow}                    __/ |                                                {Colors.reset}
+{Colors.yellow}                   |___/                                                 {Colors.reset}
+''')
+time.sleep(2)
+
+print(Colors.yellow+'Checking if Discord is running...')
+time.sleep(2)
+
+def clear():
+    os.system('clear')
+
+def process_exists(processName):
     for proc in psutil.process_iter():
-        logging.debug(f"Checking process {proc}")
         try:
             if processName.lower() in proc.name().lower():
-                logging.info(f"Found process {proc} matching required name ({processName})")
                 return True
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            logging.warning(f"Process {proc} returned 'NoSuchProcess', 'AccesDenied' or 'ZombieProcess'")
             pass
-    logging.warning(f"Did not find process matching required name ({processName})")
     return False
 
-def PlayerState() -> str:
-    logging.info("Checking PlayerState")
-    if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe'):
+if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary') == True:
+    print(Colors.green+'Discord is running!'+Colors.dgray+'(1/2)'+Colors.reset)
+    RPC = Presence('401518684763586560')
+    RPC.connect()
+else:
+    print(Colors.red+'Discord not running!'+Colors.reset)
+    exit()
+
+print(Colors.yellow+'Checking if LeagueClient.exe is running...')
+time.sleep(2)
+if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
+    print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
+else:
+    print(Colors.red+'LeagueClient.exe is not running!'+Colors.reset)
+    time.sleep(2)
+    exit()
+
+time.sleep(1)
+
+print(f'{Colors.green}\nRich Presence utilezed!')
+
+def PlayerState():
+    if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
         if process_exists('League of Legends.exe'): 
-            logging.debug("Current player state: InGame")
             return 'InGame'
         else:
-            logging.debug("Current player state: InLobby")
             return 'InLobby'
     else:
-        logging.warning("Current player state: NotLaunched")
         return 'NotLaunched'
 
-def in_game_handler_fetch_data() -> tuple[str, str, str]:
-    logging.info("Fetching champion and champion art data")
-    start_time = time.time()
-    logging.debug(f"Start time: {start_time}")
-    username = SummonerName()
-    logging.debug(f"Summoner Name: {username}")
-    while username == False:
-        logging.warning("Username is not found, trying again")
+while PlayerState() != 'NotLaunched':
+    if PlayerState() == 'InGame':
+        start_time = time.time()
         username = SummonerName()
-        logging.debug(f"Summoner Name: {username}")
-        time.sleep(1)
-    champion_name = ChampionName(Name=username)
-    logging.debug(f"Champion Name: {champion_name}")
-    champion_art = ChampionAsset(Champion=champion_name)
-    logging.debug(f"Champion Asset: {champion_art}")
-
-    return champion_name, champion_art, start_time
-
-def scan_for_required_processes(end_after_n_attempts = 15) -> None:
-    logging.info("Checking if discord and league of legends are both on")
-    # System state variables
-    scanning = True
-    discord_on = False
-    league_on = False
-    attempts = 0
-    while scanning:
-        attempts += 1
-        logging.debug(f"Scanning. Attempt number: {attempts}")
-        # Checking discord
-        if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary'):
-            discord_on = True
-
-        # Checking League
-        if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe'):
-            league_on = True
-
-        # TODO: configurable
-        if attempts >= end_after_n_attempts:
-            logging.error(f"Scanning attempts exceeded maximum ({end_after_n_attempts}): Exiting")
-            exit()
-
-        # scanning = False if both discord and league were found to be active
-        scanning = not ((discord_on == True) and (league_on == True))
-        if not scanning:
-            break
-        logging.warning(f"Couldn't find required processes (Discord: {'found' if discord_on else 'not found'}; League of Legends: {'found' if league_on else 'not found'})")
-        time.sleep(5)
-
-def main() -> None:
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--debug", help="enable debug logging", action="store_true")
-    parser.add_argument("-i", "--info", help="enable info logging", action="store_true")
-    parser.add_argument("-w", "--warning", help="enable warning logging", action="store_true")
-    parser.add_argument("-e", "--error", help="enable error logging", action="store_true")
-    args = parser.parse_args()
-
-    # Configure logging based on command-line arguments
-    if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
-    elif args.info:
-        logging.basicConfig(level=logging.INFO)
-    elif args.warning:
-        logging.basicConfig(level=logging.WARNING)
-    elif args.error:
-        logging.basicConfig(level=logging.ERROR)
-    else:
-        logging.basicConfig(level=logging.ERROR)
-
-    attempts_to_quit = 0
-    logging.info("Starting LoL RPC for Linux")
-    # Scanning
-    scan_for_required_processes()
-
-    logging.debug("Attempting RPC connection with discord client")
-    RPC = Presence("863018853482889236")
-    RPC.connect()
-    logging.info("RPC Connection succesfull")
-
-    player_state = PlayerState()
-    restart_loop = False
-    while True:
-        if player_state != 'NotLaunched':
-            if player_state == 'InGame':
-                champion_name, champion_art, start_time = in_game_handler_fetch_data()
-                while player_state == 'InGame':
-                    gamemode = GameMode()
-                    logging.debug(f"Updating RPC: Champion {champion_name} ChampionArt: {champion_art} Gamemode:{gamemode} StartTime: {start_time}")
-                    print(champion_art + "\n" + champion_name)   
-                    RPC.update(
-                        large_image=champion_art,
-                        large_text=champion_name,
-                        details=gamemode,
-                        state='In Game',
-                        small_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
-                        small_text=KDA(),
-                        start=start_time
-                    )
-                    logging.debug("Updating succesfull")
-                    # We check the player state again to make sure we're still in game
-                    player_state = PlayerState()
-            elif player_state == 'InLobby':
-                start_time = time.time()
-                while player_state == 'InLobby':
-                    logging.debug(f"Updating RPC: StartTime: {start_time}")
-                    RPC.update(
-                        large_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
-                        large_text='In Lobby',
-                        state='In Lobby',
-                        start=start_time
-                    )
-                    logging.debug("Updating succesfull")
-                    # We check the player state again to make sure we're still in lobby
-                    player_state = PlayerState()
-            continue
-        else:
-            logging.warning("Player state: NotLaunched. Seems like league processes stopped or are invisible. Waiting 5s")
+        while username == False:
+            username = SummonerName()
             time.sleep(5)
-            player_state = PlayerState()
-            if player_state == "NotLaunched":
-                logging.error("Player state is still NotLaunched: meaning either League of Legends is closed or something wrong happened. If League was closed while running the script this error can be ignored")
-                exit()
-
-if __name__ == "__main__":
-    main()
+        c = ChampionName(Name=SummonerName())
+        c_ = c[:]
+        ca = ChampionAsset(Champion=ChampionName(Name=SummonerName()))
+        ca_ = ca[:]
+        while PlayerState() == 'InGame':
+            RPC.update(
+                large_image=ca_,
+                large_text=c_,
+                details=GameMode(),
+                state='In Game',
+                small_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
+                small_text=KDA(),
+                start=start_time
+            )
+    elif PlayerState() == 'InLobby':
+        start_time = time.time()
+        while PlayerState() == 'InLobby':
+            RPC.update(
+                large_image='https://freepngimg.com/save/85643-blue-league-legends-icons-of-symbol-garena/1600x1600.png',
+                large_text='In Lobby',
+                state='In Lobby',
+                start=start_time
+            )
+else:
+    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...')
+    exit()
