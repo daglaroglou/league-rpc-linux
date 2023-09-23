@@ -22,7 +22,7 @@ def ChampionName(Name):
     if champ == 'Miss Fortune':
         champ = 'MissFortune'
     if champ == "Kai'Sa":
-        champ = 'KaiSa'
+        champ = 'Kaisa'
     if champ == "Kog'Maw":
         champ = 'KogMaw'
     if champ == "Rek'Sai":
