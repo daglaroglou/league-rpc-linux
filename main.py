@@ -52,7 +52,7 @@ def process_exists(processName):
             pass
     return False
 
-if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary') == True:
+if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary') or process_exists('electron') == True:
     print(Colors.green+'Discord is running!'+Colors.dgray+'(1/2)'+Colors.reset)
     RPC = Presence('401518684763586560')
     RPC.connect()
