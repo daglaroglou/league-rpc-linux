@@ -60,18 +60,26 @@ else:
     print(Colors.red+'Discord not running!'+Colors.reset)
     exit()
 
-print(Colors.yellow+'Checking if LeagueClient.exe is running...')
-time.sleep(2)
-if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
-    print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
-else:
-    print(Colors.red+'LeagueClient.exe is not running!'+Colors.reset)
-    time.sleep(2)
-    exit()
+attempts = 0
+
+print(Colors.yellow+'Checking if LeagueClient.exe is running... If you\'re launching the game this may take a while.')
+
+while(attempts <= 10):
+    time.sleep(6)
+    if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
+        print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
+        break
+    elif (attempts == 9):
+        print(Colors.red+'LeagueClient.exe is not running, or was not open in time! Shutting down...'+Colors.reset)
+        time.sleep(2)
+        exit()
+    else:
+        attempts += 1
+
 
 time.sleep(1)
 
-print(f'{Colors.green}\nRich Presence utilezed!')
+print(f'{Colors.green}\nRich Presence utilized!')
 
 def PlayerState():
     if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
@@ -113,5 +121,5 @@ while PlayerState() != 'NotLaunched':
                 start=start_time
             )
 else:
-    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...')
+    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...'+Colors.reset)
     exit()
