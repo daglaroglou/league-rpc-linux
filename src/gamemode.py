@@ -21,5 +21,7 @@ def GameMode():
         return 'Summoner\'s Rift (Tutorial)'
     elif game_mode == 'URF':
         return 'Summoner\'s Rift (URF)'
+    elif game_mode == 'NEXUSBLITZ':
+        return 'Nexux Blitz'
     else:
         return '???'
