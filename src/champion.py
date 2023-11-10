@@ -33,6 +33,8 @@ def ChampionName(Name):
         champ = 'Nunu'
     if champ == 'Twisted Fate':
         champ = 'TwistedFate'
+    if champ == 'Tahm Kench':
+    	champ = 'TahmKench'
     if champ == "Vel'Koz":
         champ = 'Velkoz'
     if champ == 'Xin Zhao':
