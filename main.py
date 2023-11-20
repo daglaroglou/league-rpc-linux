@@ -52,41 +52,46 @@ def process_exists(processName):
             pass
     return False
 
+
 if process_exists('Discord') or process_exists('DiscordPTB') or process_exists('DiscordCanary') or process_exists('electron') == True:
-    print(Colors.green+'Discord is running!'+Colors.dgray+'(1/2)'+Colors.reset)
+    print(Colors.green+'Discord is running!'+Colors.dgray+'(1/3)'+Colors.reset)
     RPC = Presence('401518684763586560')
     RPC.connect()
 else:
     print(Colors.red+'Discord not running!'+Colors.reset)
     exit()
 
-attempts = 0
+print(Colors.yellow+'Checking if Riot Games Launcher is running...')
+time.sleep(2)
+if process_exists('RiotClientServi') == True:
+    print(Colors.green+'Riot Games Service is running!'+Colors.dgray+'(2/3)'+Colors.reset)
+else:
+    print(Colors.red+'Riot Games Service is not running!'+Colors.reset)
+    time.sleep(2)
+    exit()
 
-print(Colors.yellow+'Checking if LeagueClient.exe is running... If you\'re launching the game this may take a while.')
-
-while(attempts <= 10):
-    time.sleep(6)
-    if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
-        print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(2/2)'+Colors.reset)
-        break
-    elif (attempts == 9):
-        print(Colors.red+'LeagueClient.exe is not running, or was not open in time! Shutting down...'+Colors.reset)
-        time.sleep(2)
-        exit()
-    else:
-        attempts += 1
-
+print(Colors.yellow+'Checking if LeagueClient.exe is running...')
+time.sleep(2)
+if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
+    print(Colors.green+'LeagueClient.exe is running!'+Colors.dgray+'(3/3)'+Colors.reset)
+else:
+    print(Colors.red+'LeagueClient.exe is not running!'+Colors.reset)
+    time.sleep(2)
+    exit()
 
 time.sleep(1)
 
-print(f'{Colors.green}\nRich Presence utilized!')
+print(f'{Colors.green}\nRich Presence utilezed!')
 
 def PlayerState():
-    if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
-        if process_exists('League of Legends.exe'): 
-            return 'InGame'
+    if process_exists('RiotClientServi'):
+        if process_exists('LeagueClient.exe') or process_exists('LeagueClientUx.exe') == True:
+            if process_exists('League of Legends.exe'): 
+                return 'InGame'
+            else:
+                return 'InLobby'
         else:
-            return 'InLobby'
+            return 'NotLaunched'
     else:
         return 'NotLaunched'
 
@@ -121,5 +126,5 @@ while PlayerState() != 'NotLaunched':
                 start=start_time
             )
 else:
-    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...'+Colors.reset)
+    print(f'{Colors.red}LeagueOfLegends.exe was terminated. RPC shuting down...')
     exit()

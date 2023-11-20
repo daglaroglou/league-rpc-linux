@@ -29,8 +29,6 @@ def ChampionName(Name):
         champ = 'RekSai'
     if champ == "K'Sante":
         champ = 'KSante'
-    if champ == "Kha'Zix":
-    	champ == 'KhaZix'
     if champ == "Nunu & Willump":
         champ = 'Nunu'
     if champ == 'Twisted Fate':
